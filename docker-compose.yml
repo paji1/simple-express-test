@@ -1,0 +1,32 @@
+# Use root/toor as user/password credentials
+version: '3.1'
+
+services:
+
+  mongo:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: toor
+    volumes:
+      - /home/taha/cutie-job/db:/data/db
+    ports:
+      - 27017:27017
+    networks:
+      - "networkName"
+
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: toor
+      ME_CONFIG_MONGODB_URL: mongodb://root:toor@mongo:27017/
+    networks:
+      - "networkName"
+
+networks:
+  networkName:
